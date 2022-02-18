@@ -1,0 +1,44 @@
+/* Proof of concept Service Worker
+  precaches specified resources
+  Listing 3.2 and 3.3 in Hume book
+*/
+self.addEventListener("install", function (event) {
+  console.log("Installing the service worker!");
+  caches.open("PRECACHE")
+  .then(function (cache) {
+    cache.addAll(cacheList);
+  });
+});
+
+// Precache assets in alchemy_pwa theme:
+var cacheList = [
+"theme/css/theme.css",
+"theme/css/bootstrap.min.css",
+"theme/css/default.min.css",
+"theme/css/fontawesome.min.css",
+"theme/js/toggle_source_language.js",
+"theme/webfonts/fa-solid-900.woff2",
+"index.html"
+/*
+"style/main.css",
+"js/keyboard_input_manager.js",
+"js/html_actuator.js",
+"js/grid.js",
+"js/tile.js",
+"js/local_storage_manager.js",
+"js/game_manager.js",
+"js/application.js"
+*/
+];
+
+self.addEventListener("fetch", function (event) {
+  event.respondWith(
+  caches.match(event.request)
+  .then(function (response) {
+    if (response) {
+      return response;
+    }
+    return fetch(event.request);
+  })
+  );
+});

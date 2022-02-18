@@ -1,0 +1,62 @@
+/* Proof of concept Service Worker
+  pre-caches listed resources
+  caches all new requests
+  'intercept and cache'
+  Listing 3.6 in Hume book
+  Plus versioning by service-worker.md page's 'version' tag in file metadata
+  Plus precache files set by service-worker.md file in content/pages/
+  {% block content %}
+      version: {{ page.version }}
+*/
+
+// Name the cache
+var cacheName = 'helloWorld';
+// Cache listed resources:
+self.addEventListener('install', event => {
+  event.waitUntil(
+  // Open the cache and store named resources in an array
+    caches.open(cacheName)
+    .then(cache => cache.addAll([
+    {% for precache_file in page.cache_files.split(' ') %}
+      {{ precache_file }}
+    {% endfor %}
+  {% endblock %}
+    ]))
+  );
+});
+
+// Create an event listener for fetch events. It will intercept all requests
+self.addEventListener('fetch', event => {
+  // Does the current request event match anything in the cache?
+  event.respondWith(
+      caches.match(event.request, { ignoreSearch: true })
+      .then(function(response) {
+        // If there is a match in cache, return it and stop
+        if (response) {
+          return response;
+        }
+// Clone the request. Necessary because a request is a stream and can only be used once
+        var requestToCache = event.request.clone();
+
+// Try to make the original HTTP request that triggered this event
+        return fetch(requestToCache).then(
+          function(response) {
+            // If the request fails or server response is an error code, immediately return the error
+            if(!response || response.status !== 200) {
+              return response;
+            }
+
+// Clone the response again (second time). To add it to the cache and to send it to browser
+            var responseToCache = response.clone();
+// Open the cache by name
+            caches.open(cacheName)
+            .then(function(cache) {
+              // Add the response to the cache
+              cache.put(requestToCache, responseToCache);
+            });
+            return response;
+          });
+      })
+   );
+});
+

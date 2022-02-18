@@ -1,0 +1,34 @@
+/* Proof of concept basic Service Worker
+  Specifies two files to cache (if present)
+*/
+// Name of the cache
+var cacheName = 'helloWorld';
+self.addEventListener('install', event => {
+//    Tap into the Service Worker install event
+    event.waitUntil(
+//    Open a cache using the cache name we specified
+        caches.open(cacheName)
+//    Add the JavaScript and image into the cache
+            .then(cache => cache.addAll([
+                '/js/script.js',
+                '/images/hello.png'
+            ]))
+    );
+});
+
+// Add an event listener to the fetch event
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+// Check if incoming request URL matches anything that exists in the current cache
+        caches.match(event.request)
+            .then(function(response) {
+// If there's a response and it is not null/undefined, then return it                
+                if (response) {
+                    return response;
+                }
+// Else continue as normal and fetch the resource as intended                
+                return fetch(event.request);
+            }
+        )
+    );
+});

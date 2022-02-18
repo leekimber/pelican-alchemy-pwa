@@ -1,0 +1,13 @@
+// Register the service worker
+if ('serviceWorker' in navigator) {
+// Ie Check to see if the current browser supports Service Workers.
+  navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+  // Registration was successful
+    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+  // If error during Service Worker registration, you can catch it and respond appropriately
+  }).catch(function(err) {
+  // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+}
+
