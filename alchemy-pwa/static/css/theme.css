@@ -10,25 +10,47 @@
 blockquote {
   opacity: .7;
   font-style: italic;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 hr {
   margin: 1.5rem 0;
 }
 
-mg[src*="#resized"] {
+// Test all-in image and video solutions - works
+img {
     max-width: 100%;
     height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+// Previous image and video rendering and positioning solutions - works but needs auto-modifying
+img[src*="#resized"] {
+    max-width: 100%;
+    height: auto;
+Below works but need to figure out how to centre captions
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 img[src*="#clickable"] {
     max-width: 100%;
     height: auto;
     border: 1px solid #0085A1;
 }
+*/
+
 video { 
     max-width: 100%;
     height: auto;
     border: 1px solid #0085A1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ------------------------------------------------------------------------- */
