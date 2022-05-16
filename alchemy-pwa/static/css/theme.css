@@ -8,10 +8,22 @@
 }
 
 blockquote {
+    background-color: #f5f5f5;
   opacity: .7;
   font-style: italic;
   margin-left: 2%;
   margin-right: 2%;
+}
+blockquote p:before { 
+    content: open-quote;
+    font-weight: bold;
+} 
+blockquote p:after { 
+    content: close-quote;
+    font-weight: bold;
+}
+blockquote p {
+    font-size: 85%;
 }
 
 hr {
@@ -19,6 +31,7 @@ hr {
 }
 
 // Test all-in image and video solutions - works
+/*
 img {
     max-width: 100%;
     height: auto;
@@ -26,6 +39,7 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+*/
 
 /*
 // Previous image and video rendering and positioning solutions - works but needs auto-modifying
@@ -44,14 +58,14 @@ img[src*="#clickable"] {
 }
 */
 
+
 video { 
     max-width: 100%;
     height: auto;
     border: 1px solid #0085A1;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
+
 
 /* ------------------------------------------------------------------------- */
 

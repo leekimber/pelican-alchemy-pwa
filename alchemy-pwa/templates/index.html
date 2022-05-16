@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block page_header %}
-  Articles
+  Evidence:
 {% endblock %}
 
 {% block content %}
@@ -31,6 +31,7 @@
           </li>
 -->          
           {% if not HIDE_AUTHORS and article.authors %}
+            <li><img alt="author image" src="{{ SITEURL }}/images/profiles/{{ article.author_image }}" class="img-fluid"></li>
             <li>
               <i class="fas fa-user"></i>
               {% for author in article.authors %}
@@ -47,6 +48,9 @@
         <h4 class="title">
           <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}{% if article.link %} <i class="fas fa-link"></i>{% endif %}</a>
         </h4>
+
+              <a href="{{ SITEURL }}/{{ article.url }}"><img alt="article image" src="{{ SITEURL }}/images/{{ article.article_image }}" class="img-fluid"></a>
+
         <div class="content">
           {{ article.summary|striptags }}
         </div>
